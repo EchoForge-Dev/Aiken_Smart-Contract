@@ -1,0 +1,25 @@
+# ===== EchoForge Aiken Smart Contracts .gitignore =====
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment — NEVER commit secrets
+.env
+.env.local
+.env*.local
+**/.env
+**/.env.local
+**/.env*.local
+
+# Aiken build artifacts
+credential/build/
+credential/artifacts/
+
+# Logs
+*.log
