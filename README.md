@@ -99,7 +99,7 @@ pub type CertAction {
 
 ---
 
-### 2. DocuMint (`credential/validators/documint.ak`)
+### 2. DocuMint (`credential/validators/documint.ak`) — The first version of EchoCert
 
 A **minting policy** for anchoring document hashes on Cardano as native tokens — a tamper-evident notarisation primitive.
 
