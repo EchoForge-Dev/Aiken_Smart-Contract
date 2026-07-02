@@ -31,9 +31,13 @@ credential/
 
 ## Contracts
 
-### 1. EchoCert (`credential/validators/echocert.ak`)
+> **⚠️ Important:** The on-chain EchoCert minting policy deployed on mainnet and preprod (policy ID `32fd4d6013971be1074d83dc9b4ae3f9512184f10bfad9d1b8e7a158` on mainnet; `4df6ed7ffa2b134a2599cf48275f1bb3f0166277b1e99cc2f5ac8198` on preprod) runs **`documint`'s validator logic**, not the separate `echocert.ak`. See [`credential/legacy/README.md`](credential/legacy/README.md) for the historical background and reproducible proof. For more context, see [echoforgellc.tech/blog](https://echoforgellc.tech/blog).
 
-A **minting policy** for issuing and revoking on-chain credential certificates as Cardano native tokens.
+### 1. EchoCert – Live On-Chain Validator
+
+The **production minting policy** for issuing and revoking on-chain credential certificates as Cardano native tokens.
+
+**Note:** The production implementation uses `documint.ak` (see below). The original `echocert.ak` was never deployed; its source code is archived in [`credential/legacy/`](credential/legacy/) for historical reference.
 
 #### Purpose
 
@@ -99,13 +103,17 @@ pub type CertAction {
 
 ---
 
-### 2. DocuMint (`credential/validators/documint.ak`) — The first version of EchoCert
+### 2. DocuMint – The Deployed EchoCert Validator (`credential/validators/documint.ak`)
+
+**This is the production-deployed minting validator for EchoCert.** Although named `documint`, it enforces the same security guarantees as the separate `echocert.ak` design. All EchoCert credentials minted on mainnet and preprod are governed by this validator.
 
 A **minting policy** for anchoring document hashes on Cardano as native tokens — a tamper-evident notarisation primitive.
 
 #### Purpose
 
 DocuMint creates a **unique on-chain anchor** for any document. The token name equals `SHA-256(document_bytes)`, so the token itself proves that a specific byte sequence existed at block time. Burning the token formally revokes the anchor.
+
+When used as EchoCert's production validator, it anchors credential credentials (name + date + issuer) as immutable on-chain records.
 
 #### Parameters (applied at compile time)
 
@@ -166,6 +174,23 @@ pub type Action {
 | `burn_anchor_succeeds` | ✅ Pass |
 | `burn_anchor_fails_without_issuer_signature` | ❌ Fail (expected) |
 | `burn_anchor_fails_with_positive_quantity` | ❌ Fail (expected) |
+
+---
+
+## Deployment Status
+
+### Production (Live on Mainnet & Preprod)
+
+| Network | Policy ID | Validator | Status |
+| --- | --- | --- | --- |
+| Mainnet | `32fd4d6013971be1074d83dc9b4ae3f9512184f10bfad9d1b8e7a158` | documint | ✅ Active |
+| Preprod | `4df6ed7ffa2b134a2599cf48275f1bb3f0166277b1e99cc2f5ac8198` | documint | ✅ Active |
+
+The production EchoCert system runs **`documint.ak`**, not a separate `echocert.ak` deployment. This decision was made in July 2026 after an on-chain audit confirmed that documint and echocert enforce equivalent trust and security properties (see [`credential/legacy/evidence/policy-derivation.md`](credential/legacy/evidence/policy-derivation.md) for reproducible verification).
+
+### Archive
+
+The original `echocert.ak` validator was never deployed to mainnet or preprod. Its source code is preserved in [`credential/legacy/echocert.ak`](credential/legacy/echocert.ak) along with a full audit trail proving the discrepancy and explaining the timeline (see [`credential/legacy/README.md`](credential/legacy/README.md)).
 
 ---
 
