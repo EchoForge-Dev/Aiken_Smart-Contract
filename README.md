@@ -13,18 +13,27 @@ credential/
 ├── plutus.json                         # Compiled Plutus blueprint
 ├── LICENSE                             # Apache-2.0
 ├── validators/
-│   ├── echocert.ak                     # EchoCert – Certificate minting policy
-│   └── documint.ak                     # DocuMint – Document anchor minting policy
-└── lib/
-    └── benchmarks/
-        ├── clausify/benchmark.ak       # Clausify benchmark
-        └── knights/                    # Knight's tour benchmark suite
-            ├── benchmark.ak
-            ├── chess_set.ak
-            ├── heuristic.ak
-            ├── queue.ak
-            ├── sort.ak
-            └── types.ak
+│   └── documint.ak                     # DocuMint – Document/certificate anchor minting policy (production EchoCert logic)
+├── lib/
+│   └── benchmarks/
+│       ├── clausify/benchmark.ak       # Clausify benchmark
+│       └── knights/                    # Knight's tour benchmark suite
+│           ├── benchmark.ak
+│           ├── chess_set.ak
+│           ├── heuristic.ak
+│           ├── queue.ak
+│           ├── sort.ak
+│           └── types.ak
+└── legacy/                             # Archived, never-deployed echocert.ak + audit trail
+    ├── README.md                       # Timeline + explanation of the documint/echocert discrepancy
+    ├── echocert.ak                     # Original EchoCert source (not compiled by aiken build)
+    └── evidence/
+        ├── policy-derivation.md        # Reproducible proof of the deployed policy's derivation
+        ├── mainnet-assets.json
+        ├── mainnet-deployed-script.json
+        ├── plutus-frontend-deployed.json
+        ├── plutus-source-correct.json
+        └── IMG_5085.jpg
 ```
 
 ---
@@ -214,6 +223,22 @@ Issuer key check  →  Token name binding  →  Quantity check  →  Fee / outpu
 ## Trust Tier Model
 
 This platform records certificate content and issuance time. Unverified certificates do not represent the issuer's true identity. Domain verification only proves the issuer controls the domain, not institutional qualifications or content authenticity. **Certificate authenticity is the responsibility of the issuer.**
+
+### Why Is There No Single "Official" Policy ID?
+
+`treasury` and `issuer` are both **compile-time parameters** baked into the validator script (see `validator documint(treasury, issuer)` in [`documint.ak`](credential/validators/documint.ak)). Applying a different `issuer` key produces a different compiled script, and therefore a **different script hash — a different Policy ID.** Since this is a permissionless system (Tier 1), any wallet can become an issuer, so there is no one Policy ID that "is" EchoCert the way a single NFT collection has one canonical Policy ID. Checking "is this Policy ID the official one?" is not a well-formed question here.
+
+Genuineness is instead established as a **three-layer model**, which separates "is this certificate real" from "is this issuer trustworthy":
+
+1. **Structural verification (protocol conformance).** Independent of which Policy ID is involved, anyone can confirm the minting transaction satisfies the validator's hard rules: exactly one token name is minted under the policy, in a quantity of exactly one (no batch minting), that name equals the SHA-256 hash of the certificate/document content, and the script's compiled bytes match the published `documint` validator in [`plutus.json`](credential/plutus.json) (a Plutus script hash is deterministic from its bytes plus its applied parameters — see [`credential/legacy/evidence/policy-derivation.md`](credential/legacy/evidence/policy-derivation.md) for a worked, reproducible example of this check). This proves the token was minted by *a* genuine copy of the validator — not that it came from the official platform.
+
+2. **Treasury anchoring (platform anchor).** Structural conformance alone isn't sufficient — anyone can compile their own copy of the same validator with their own `issuer` key, satisfying layer 1 while having nothing to do with EchoForge. The differentiator is the `treasury` parameter: every certificate issued through the official platform pays its fee to the published EchoForge treasury address, regardless of which `issuer` key signed it. [^1] A transaction that is structurally correct but pays a treasury address outside that set did not come from the official platform, no matter how correct its logic looks. This is the one constant across every legitimate issuer, in place of a single Policy ID.
+
+   [^1]: *For developers reconciling this against the authenticity-check implementation: "the published treasury address" is not always a single unchanging constant — it may be rotated for security (e.g. a cold-wallet migration), in which case it resolves to a small set of historical addresses, each valid for the time window it was in effect. Verification matches a certificate's mint time to the official address in effect during that window; older, superseded addresses remain recognized as valid for certificates minted while they were current. This detail is omitted from the main text above for readability; general readers can treat "the treasury address" as effectively a single constant.*
+
+3. **Issuer trust tier (real-world identity).** Passing layers 1–2 only proves the certificate is authentic *to the protocol* — it says nothing about who the specific issuer is or whether they can be trusted. That question is answered separately by the three tiers below (Unverified / Domain-Linked / On-Chain Identity).
+
+In short: **the Policy ID identifies *which issuer* minted a token, not *whether it's genuine*.** Genuineness comes from structure + treasury anchor (layers 1–2); trustworthiness of the issuer is a separate judgment made via the tier system (layer 3).
 
 ### Tier 1 · Active—Permissionless — Unverified Issuance
 
