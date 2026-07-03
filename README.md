@@ -31,9 +31,9 @@ credential/
 
 ## Contracts
 
-> **⚠️ Important:** The on-chain EchoCert minting policy deployed on mainnet and preprod (policy ID `32fd4d6013971be1074d83dc9b4ae3f9512184f10bfad9d1b8e7a158` on mainnet; `4df6ed7ffa2b134a2599cf48275f1bb3f0166277b1e99cc2f5ac8198` on preprod) runs **`documint`'s validator logic**, not the separate `echocert.ak`. See [`credential/legacy/README.md`](credential/legacy/README.md) for the historical background and reproducible proof. For more context, see [echoforgellc.tech/blog](https://echoforgellc.tech/blog).
+> **⚠️ Important:** The on-chain EchoCert minting policy deployed on mainnet and preprod runs **`documint`'s validator logic**, not the separate `echocert.ak`. See [`credential/legacy/README.md`](credential/legacy/README.md) for the historical background and reproducible proof. For more context, see [echoforgellc.tech/blog](https://echoforgellc.tech/blog).
 
-### 1. EchoCert – Live On-Chain Validator
+### 1. EchoCert.ak- Not in use
 
 The **production minting policy** for issuing and revoking on-chain credential certificates as Cardano native tokens.
 
@@ -180,11 +180,6 @@ pub type Action {
 ## Deployment Status
 
 ### Production (Live on Mainnet & Preprod)
-
-| Network | Policy ID | Validator | Status |
-| --- | --- | --- | --- |
-| Mainnet | `32fd4d6013971be1074d83dc9b4ae3f9512184f10bfad9d1b8e7a158` | documint | ✅ Active |
-| Preprod | `4df6ed7ffa2b134a2599cf48275f1bb3f0166277b1e99cc2f5ac8198` | documint | ✅ Active |
 
 The production EchoCert system runs **`documint.ak`**, not a separate `echocert.ak` deployment. This decision was made in July 2026 after an on-chain audit confirmed that documint and echocert enforce equivalent trust and security properties (see [`credential/legacy/evidence/policy-derivation.md`](credential/legacy/evidence/policy-derivation.md) for reproducible verification).
 
