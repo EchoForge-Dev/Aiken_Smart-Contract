@@ -48,7 +48,7 @@ EchoCert turns a credential (name + date + issuer) into a **unique, non-fungible
 | Parameter  | Type        | Description                                              |
 |-----------|-------------|----------------------------------------------------------|
 | `treasury` | `ByteArray` | Payment credential hash that receives the 1 ADA issuance fee |
-| `issuer`   | `ByteArray` | Public key hash of the entity authorised to issue/revoke |
+| `issuer`   | `ByteArray` | Public key hash of the certificate issuer's own wallet. Under this permissionless design, anyone can be an `issuer` for their own certificates (see Trust Tier model below); this parameter identifies *who* issued a given certificate, not *whether* they were authorised to. |
 
 #### Redeemer
 
@@ -77,7 +77,7 @@ pub type CertAction {
 
 | Threat | Mitigation |
 |--------|-----------|
-| Unauthorised issuance | Every mint requires an `extra_signatories` check against the `issuer` key hash — no signature, no mint. |
+| Impersonating another issuer | Every mint requires an `extra_signatories` check against the `issuer` key hash — no one can mint under a policy parameterised to someone else's key. (This does not restrict *who* may become an issuer — see Trust Tier model.) |
 | Token name forgery | Token name is enforced to equal the `cert_hash` supplied in the redeemer; mismatching names cause immediate script failure. |
 | Batch inflation | The validator pattern-matches `[Pair(token_name, quantity)]` — any attempt to mint more than one token name or more than 1 unit under the policy is rejected at the pattern-match. |
 | Free minting (no fee) | `IssueCert` requires at least one output ≥ 1 ADA to the treasury; a transaction that omits this output fails. |
@@ -120,7 +120,7 @@ When used as EchoCert's production validator, it anchors credential credentials 
 | Parameter  | Type        | Description                                              |
 |-----------|-------------|----------------------------------------------------------|
 | `treasury` | `ByteArray` | Payment credential hash that receives the 5 ADA notarisation fee |
-| `issuer`   | `ByteArray` | Public key hash of the authorised notary |
+| `issuer`   | `ByteArray` | Public key hash of the certificate issuer's own wallet. Under this permissionless design, anyone can be an `issuer` for their own certificates (see Trust Tier model below); this parameter identifies *who* issued a given certificate, not *whether* they were authorised to. |
 
 #### Redeemer
 
@@ -149,7 +149,7 @@ pub type Action {
 
 | Threat | Mitigation |
 |--------|-----------|
-| Unauthorised anchoring | Every mint requires an `extra_signatories` check against `issuer`; unsigned transactions are rejected. |
+| Impersonating another issuer | Every mint requires an `extra_signatories` check against the `issuer` key hash — no one can anchor under a policy parameterised to someone else's key. (This does not restrict *who* may become an issuer — see Trust Tier model.) |
 | Hash substitution | Token name is enforced to equal `doc_hash` from the redeemer; a forged or different hash fails the equality check. |
 | Duplicate anchors | One token per transaction prevents bulk minting; the pattern-match `[Pair(...)]` rejects any multi-name or multi-quantity mint. |
 | Fee evasion | `MintAnchor` requires an output ≥ 5 ADA to the treasury — no payment, no anchor. |
@@ -213,6 +213,36 @@ Issuer key check  →  Token name binding  →  Quantity check  →  Fee / outpu
 5. **Exhaustive `else` branch** — `else(_) { fail }` prevents the policy from being used as a spend or other validator kind, eliminating unexpected attack surfaces.
 
 6. **Treasury as payment commitment** — Requiring a minimum lovelace payment to a fixed treasury address prevents free-of-cost minting and creates a financial stake in every issuance.
+
+---
+
+## Trust Tier Model
+
+This platform records certificate content and issuance time. Unverified certificates do not represent the issuer's true identity. Domain verification only proves the issuer controls the domain, not institutional qualifications or content authenticity. **Certificate authenticity is the responsibility of the issuer.**
+
+### Tier 1 · Active—Permissionless — Unverified Issuance
+
+- Anyone can issue certificates without any identity verification.
+- Certificates carry an "Unverified Issuer" watermark.
+- Suitable for personal use, small events, and informal certificates.
+- ⚠️ **This platform does not verify any issuer information.**
+
+### Tier 2 · Active—Domain-Linked — Domain Verification
+
+- Issuers prove domain control via DNS TXT records to unlock the green-label professional style.
+- Certificate displays "Issued by [Name] ✓"; the lookup page shows a green checkmark next to the wallet address.
+- Trust comes from the issuer's own domain reputation; the platform provides the verification tool.
+- ⚠️ **This platform only verifies the issuer's control over the stated domain — not institutional qualifications or certificate content.**
+
+#### Domain Spoofing Risk
+
+The system cannot distinguish lookalike domains (e.g. `stonepark.edu` vs `st0nepark.edu`). Always verify the domain spelling against the institution's official website. The recipient bears responsibility for this check; the platform provides the domain display as a verification aid.
+
+### Tier 3 · Coming Soon—On-Chain Identity — DID Verification
+
+- Only wallets holding specific Governance Tokens or verified via Cardano DID may issue certificates with the official color scheme.
+- Trust is derived from on-chain data — transactions originating from a known DAO multisig wallet are verifiably authentic.
+- **Certificate authenticity is the responsibility of the issuer, not the platform.**
 
 ---
 
