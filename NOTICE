@@ -1,0 +1,36 @@
+EchoForge Aiken Smart Contracts
+Copyright 2026 EchoForge
+
+This repository is licensed under two separate licenses.
+
+1. Source code — Apache License 2.0
+   ---------------------------------
+   All Aiken source (*.ak), project manifests (aiken.toml, aiken.lock),
+   compiled blueprints (plutus.json), documentation and evidence records
+   are licensed under the Apache License, Version 2.0. See ./LICENSE
+   or http://www.apache.org/licenses/LICENSE-2.0
+
+2. Brand assets — CC BY-NC-ND 4.0
+   -------------------------------
+   The EchoForge / EchoCert logos and marks (EC.svg, ED.svg, EF.svg,
+   EU.svg, and any logo, icon, wordmark, seal or badge added later) are
+   licensed under the Creative Commons Attribution-NonCommercial-
+   NoDerivatives 4.0 International License. See ./LICENSE-BRAND or
+   https://creativecommons.org/licenses/by-nc-nd/4.0/
+   Attribution: "EchoForge — https://echoforgellc.tech"
+
+Names and marks
+---------------
+"EchoForge", "EchoCert", "DocuMint" and the associated logos are the
+brand names and marks of EchoForge (no trademark registration has been
+filed as of this writing). Neither the Apache License 2.0 nor
+CC BY-NC-ND 4.0 grants any rights in these names or logos. Forks and
+derivative works of the source code must not use them in a way that
+suggests endorsement, sponsorship, or affiliation with EchoForge.
+
+Third-party components
+----------------------
+This project depends on aiken-lang/stdlib v3.0.0, which is distributed
+under the Apache License 2.0. Its license is vendored at
+credential/build/packages/aiken-lang-stdlib/LICENSE and is not covered
+by the terms above.
