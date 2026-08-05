@@ -8,8 +8,8 @@
 
 ```
 LICENSE                                 # Apache-2.0 – source code
-LICENSE-BRAND                           # CC BY-NC-ND 4.0 – logos and brand assets
-EC.svg / ED.svg / EF.svg / EU.svg       # Brand assets (CC BY-NC-ND 4.0)
+LICENSE-BRAND                           # All Rights Reserved – logos and brand assets
+EC.svg / ED.svg / EF.svg / EU.svg       # Brand assets (All Rights Reserved)
 
 credential/
 ├── aiken.toml                          # Project manifest
@@ -321,7 +321,7 @@ aiken bench
 | Compiler | Aiken v1.1.21 |
 | Plutus version | v3 |
 | Standard library | aiken-lang/stdlib v3.0.0 |
-| License | Apache-2.0 (code) / CC BY-NC-ND 4.0 (brand assets) |
+| License | Apache-2.0 (code) / All Rights Reserved (brand assets) |
 | Network | Cardano (mainnet / preprod) |
 
 ---
@@ -329,4 +329,4 @@ aiken bench
 ## License
 
 - Code: [Apache-2.0](LICENSE)
-- Brand assets (`EC.svg`, `ED.svg`, `EF.svg`, `EU.svg`): [CC BY-NC-ND 4.0](LICENSE-BRAND)
+- Brand assets (`EC.svg`, `ED.svg`, `EF.svg`, `EU.svg`): [All Rights Reserved](LICENSE-BRAND)
