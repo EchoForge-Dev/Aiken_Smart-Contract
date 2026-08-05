@@ -1,47 +1,12 @@
-EchoForge Brand Assets License
-==============================
+Copyright 2026 EchoForge
 
-Copyright 2026 EchoForge. All rights reserved.
+Covers: EC.svg, ED.svg, EF.svg, EU.svg
 
-The brand assets in this repository are NOT covered by the Apache License 2.0
-that governs the source code (see ./LICENSE). They are licensed separately
-under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0
-International License (CC BY-NC-ND 4.0), whose full legal code follows below.
+Licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives
+4.0 International License (CC BY-NC-ND 4.0).
+To view a copy of this license, visit
+https://creativecommons.org/licenses/by-nc-nd/4.0/
 
-Covered material ("brand assets")
----------------------------------
-
-  * EC.svg, ED.svg, EF.svg, EU.svg  — EchoForge / EchoCert logos and marks
-  * Any other logo, icon, wordmark, seal, badge, or illustration added to
-    this repository that depicts EchoForge or one of its products
-
-Not covered (Apache-2.0 applies instead)
-----------------------------------------
-
-  * All Aiken source code (*.ak), including validators, libraries, tests
-    and benchmarks
-  * aiken.toml, aiken.lock, plutus.json and other build artifacts
-  * Documentation, README files and evidence records
-
-In short
---------
-
-You may copy and redistribute the brand assets in unmodified form, for
-non-commercial purposes, with attribution to EchoForge and a link to
-this license. You may not modify or adapt them, and you may not use them
-commercially, without prior written permission. Requests: echoforgellc.tech
-
-Names and marks
----------------
-
-"EchoForge", "EchoCert", "DocuMint" and the associated logos are the brand
-names and marks of EchoForge. CC BY-NC-ND 4.0 grants copyright and similar rights only;
-it grants NO rights in these names or logos (see Section 2(b)(2) of the
-license below). Nothing in this file or in the Apache License 2.0 permits
-use of these marks in a way that suggests endorsement, sponsorship, or
-affiliation.
-
-=======================================================================
 
 Attribution-NonCommercial-NoDerivatives 4.0 International
 

@@ -9,7 +9,6 @@
 ```
 LICENSE                                 # Apache-2.0 – source code
 LICENSE-BRAND                           # CC BY-NC-ND 4.0 – logos and brand assets
-NOTICE                                  # Copyright, licence split, trademarks
 EC.svg / ED.svg / EF.svg / EU.svg       # Brand assets (CC BY-NC-ND 4.0)
 
 credential/
@@ -329,17 +328,5 @@ aiken bench
 
 ## License
 
-This repository is dual-licensed. See [NOTICE](NOTICE) for the full statement.
-
-- **[Apache-2.0](LICENSE)** — Aiken source code (`*.ak`), manifests, compiled
-  blueprints, and documentation. Free to use, modify, and deploy commercially.
-- **[CC BY-NC-ND 4.0](LICENSE-BRAND)** — brand assets: the EchoForge / EchoCert
-  logos and marks (`EC.svg`, `ED.svg`, `EF.svg`, `EU.svg`, and any logo, icon,
-  wordmark, seal or badge added later). Redistribution is allowed unmodified and
-  non-commercially, with attribution to "EchoForge —
-  [echoforgellc.tech](https://echoforgellc.tech)"; modification or commercial use
-  requires prior written permission.
-
-**Trademarks:** "EchoForge", "EchoCert", "DocuMint" and the associated logos are
-trademarks of EchoForge. Neither license grants trademark rights — forks must
-not imply endorsement by or affiliation with EchoForge.
+- Code: [Apache-2.0](LICENSE)
+- Brand assets (`EC.svg`, `ED.svg`, `EF.svg`, `EU.svg`): [CC BY-NC-ND 4.0](LICENSE-BRAND)
